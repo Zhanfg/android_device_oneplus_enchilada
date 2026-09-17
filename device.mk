@@ -64,8 +64,8 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_PACKAGES += \
     TargetWifiOverlay
 
-# Inherit from OnePlus SDM845 common hardware description.
-$(call inherit-product, device/oneplus/sdm845-common/common.mk)
+# Inherit the AOSP-facing wrapper around the known-good OnePlus SDM845 stack.
+$(call inherit-product, device/oneplus/sdm845-common/aosp-common.mk)
 
 # Inherit from vendor blobs.
 $(call inherit-product, vendor/oneplus/enchilada/enchilada-vendor.mk)
