@@ -16,7 +16,7 @@
 
 #
 # This file sets variables that control the way modules are built
-# thorughout the system. It should not be used to conditionally
+# throughout the system. It should not be used to conditionally
 # disable makefiles (the proper mechanism to control what gets
 # included in a build is to use PRODUCT_PACKAGES in a product
 # definition file).
@@ -24,10 +24,9 @@
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_o_mr1.mk)
 
-# Overlays
+# AOSP/device overlays only. Lineage SDK overlays are intentionally excluded.
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-lineage
+    $(LOCAL_PATH)/overlay
 
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
     $(LOCAL_PATH)/overlay/frameworks/base/packages/overlays/NoCutoutOverlay
@@ -48,13 +47,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
     $(LOCAL_PATH)/audio/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml
 
-# Lights
-PRODUCT_PACKAGES += \
-    android.hardware.light-service.lineage
-
-# Pocket mode
-PRODUCT_PACKAGES += \
-    OnePlusPocketMode
+# NOTE: Lineage light service and OnePlusPocketMode are deliberately omitted
+# during the AOSP 17 bring-up. They will be replaced with ROM-owned components
+# after the base device boots cleanly without Lineage runtime namespaces.
 
 # Power
 PRODUCT_COPY_FILES += \
@@ -69,8 +64,8 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_PACKAGES += \
     TargetWifiOverlay
 
-# Inherit from oneplus sdm845-common
+# Inherit from OnePlus SDM845 common hardware description.
 $(call inherit-product, device/oneplus/sdm845-common/common.mk)
 
-# Inherit from vendor blobs
+# Inherit from vendor blobs.
 $(call inherit-product, vendor/oneplus/enchilada/enchilada-vendor.mk)
