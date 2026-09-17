@@ -14,17 +14,15 @@
 # limitations under the License.
 #
 
-# Inherit from those products. Most specific first.
+# AOSP product base. Keep the device hardware description independent from
+# Lineage product/vendor configuration so runtime/build identity can remain AOSP.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# Inherit from enchilada device
+# Inherit from enchilada device.
 $(call inherit-product, device/oneplus/enchilada/device.mk)
 
-# Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
-
-PRODUCT_NAME := lineage_enchilada
+PRODUCT_NAME := aosp_enchilada
 PRODUCT_DEVICE := enchilada
 PRODUCT_MANUFACTURER := OnePlus
 PRODUCT_BRAND := OnePlus
@@ -32,8 +30,10 @@ PRODUCT_MODEL := ONEPLUS A6003
 
 PRODUCT_GMS_CLIENTID_BASE := android-oneplus
 
+# Preserve the last stock vendor identity expected by legacy proprietary blobs.
+# This does not define the ROM/framework identity.
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildDesc="OnePlus6-user 11   release-keys" \
+    BuildDesc="OnePlus6-user 11 release-keys" \
     BuildFingerprint=OnePlus/OnePlus6/OnePlus6:11/RKQ1.201217.002/2111252325:user/release-keys \
     DeviceName=OnePlus6 \
     DeviceProduct=OnePlus6 \
